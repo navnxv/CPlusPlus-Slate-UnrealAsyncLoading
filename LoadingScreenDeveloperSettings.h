@@ -15,6 +15,8 @@ class OOA_API ULoadingScreenDeveloperSettings : public UDeveloperSettings
 	GENERATED_BODY()
 	
 public:
+
+	// Getting inputs from the user in the project settings menu
 	UPROPERTY(Config, EditAnywhere)
 	FSlateBrush LoadingOuterSpinner;
 

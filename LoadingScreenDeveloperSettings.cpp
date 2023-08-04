@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (C) Navpreet Singh 2023, All Rights Reserved
 
 
 #include "LoadingScreenDeveloperSettings.h"

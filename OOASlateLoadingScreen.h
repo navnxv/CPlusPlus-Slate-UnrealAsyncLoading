@@ -22,14 +22,26 @@ public:
 	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
 
 	TSharedPtr<SBorder> LoadingBorder;
+	
 	FSlateBrush LoadingOuterBrush;
+
 	FSlateBrush LoadingInnerBrush;
+	
 	FSlateBrush BackgroundBrush;
+	
 	FSlateBrush ThrobberBrush;
+	
 	float Time = 0.0f;
 
 	FSlateBrush EmptyBrush;
 
-	bool bIsLevelLoaded = false;
+	uint8 bIsLevelLoaded : 1;
+	
 	float Opacity = 1.0f;
+
+	UFUNCTION()
+	void SetIsLevelLoaded(void IsLoaded);
+
+	UFUNCTION()
+	bool GetIsLevelLoaded();
 };

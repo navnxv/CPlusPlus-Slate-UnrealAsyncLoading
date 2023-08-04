@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (C) Navpreet Singh 2023, All Rights Reserved
 
 
 #include "OOASlateLoadingScreen.h"
@@ -16,6 +16,7 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void OOASlateLoadingScreen::Construct(const FArguments& InArgs)
 {
+	// Checking if the user input is valid
 	const ULoadingScreenDeveloperSettings* Settings = GetDefault<ULoadingScreenDeveloperSettings>();
 	if(!IsValid(Settings)) return;
 
@@ -38,6 +39,7 @@ void OOASlateLoadingScreen::Construct(const FArguments& InArgs)
 	
 	const FText LoadingText = Settings->LoadingText;
 
+	// Creating slate widget using slate
 	ChildSlot[
 		SNew(SOverlay)
 		+SOverlay::Slot()
@@ -102,12 +104,15 @@ void OOASlateLoadingScreen::Tick(const FGeometry& AllottedGeometry, const double
 
 	Time += InDeltaTime;
 	
+	// Getting the material for rotation of the outer and inner circle. 
+	// Also, getting the material for fade in fade out, for my purposes it's just a black material with no text
 	UMaterialInstanceDynamic* MID = UWidgetBlueprintLibrary::GetDynamicMaterial(LoadingOuterBrush);
 	UMaterialInstanceDynamic* MID2 = UWidgetBlueprintLibrary::GetDynamicMaterial(LoadingInnerBrush);
 	UMaterialInstanceDynamic* EmptyScreenMID = UWidgetBlueprintLibrary::GetDynamicMaterial(EmptyBrush);
 	
 	if(IsValid(MID) && IsValid(MID2) && IsValid(EmptyScreenMID))
 	{
+		// Setting the value every frame so it is a smooth transition
 		MID->SetScalarParameterValue(FName(TEXT("Time")), Time);
 		MID2->SetScalarParameterValue(FName(TEXT("Time")), Time);
 
@@ -116,6 +121,7 @@ void OOASlateLoadingScreen::Tick(const FGeometry& AllottedGeometry, const double
 			EmptyScreenMID->SetScalarParameterValue(FName(TEXT("OpacityPercentage")), Time);
 		}
 
+		// Gets triggered from outside of this class to start a fade out effect and stop the loading screen
 		if(bIsLevelLoaded)
 		{
 			Opacity -= InDeltaTime;
@@ -133,6 +139,16 @@ void OOASlateLoadingScreen::Tick(const FGeometry& AllottedGeometry, const double
 			}
 		}
 	}
+}
+
+void OOASlateLoadingScreen::SetIsLevelLoaded(void IsLoaded)
+{
+	bIsLevelLoaded = IsLoaded;
+}
+
+bool OOASlateLoadingScreen::GetIsLevelLoaded()
+{
+	return bIsLevelLoaded;
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
